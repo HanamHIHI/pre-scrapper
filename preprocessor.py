@@ -15,4 +15,4 @@ for index, _cat2 in enumerate(["A0302"]):
     df_surfing["contains_review"] = df_surfing["naverURL"].apply(contains_review)
     cond_nonreview = df_surfing["contains_review"] == False
 
-    df_surfing[~cond_nonreview].to_csv("preprocessed_urls_hanam_restaurant_real_url_category.csv", encoding='utf-8')
+    df_surfing[~cond_nonreview].to_csv("preprocessed_urls_hanam_restaurant_real_url_position.csv", encoding='utf-8')
