@@ -19,7 +19,7 @@ import pprint
 import random
 
 for index, _cat2 in enumerate(["A0502"]):
-    df = pd.read_csv("preprocessed_urls_hanam_restaurant_real_url_category.csv", encoding='utf-8-sig')
+    df = pd.read_csv("hanam_restaurant_real_url.csv", encoding='utf-8-sig')
 
     options = webdriver.ChromeOptions()
     options.add_experimental_option("excludeSwitches", ["enable-logging"])
