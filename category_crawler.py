@@ -1,7 +1,4 @@
 import pandas as pd
-import openpyxl
-import os
-import sys
 import time
 from selenium import webdriver
 from bs4 import BeautifulSoup
@@ -9,17 +6,11 @@ from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
-from pyparsing import col
-from selenium.webdriver.common.keys import Keys
-from selenium.common.exceptions import NoSuchElementException
 from tqdm import tqdm 
-import re
-import urllib
-import pprint
 import random
 
 for index, _cat2 in enumerate(["A0502"]):
-    df = pd.read_csv("hanam_restaurant_real_url.csv", encoding='utf-8-sig')
+    df = pd.read_csv("hanam_restaurant_real_url.csv", encoding='cp949')
 
     options = webdriver.ChromeOptions()
     options.add_experimental_option("excludeSwitches", ["enable-logging"])
@@ -35,17 +26,20 @@ for index, _cat2 in enumerate(["A0502"]):
     rev_list=[]
 
 
-    for i in range(len(df)): 
+    for i in tqdm(range(len(df))): 
         
         current += 1
         print('진행상황 : ', current,'/',goal,sep="")
         
-        
-        # 식당 리뷰 개별 url 접속
-        driver.get(df['naverURL'][i])
-        thisurl = df['naverURL'][i]
-        time.sleep(2)
-        print('현재 수집중인 식당 : ', df['name'][i])
+        try:
+            # 식당 리뷰 개별 url 접속
+            driver.get(df['naverURL'][i])
+            thisurl = df['naverURL'][i]
+            time.sleep(2)
+            print('현재 수집중인 식당 : ', df['name'][i])
+        except:
+            print("exception at driver.get() / continue")
+            continue
                 
         #식당 평균 별점 수집
         try:
@@ -108,4 +102,4 @@ for index, _cat2 in enumerate(["A0502"]):
     #스크래핑한 데이터를 데이터 프레임으로 만들기  
     column = ["name", "category"]
     df2 = pd.DataFrame(rev_list, columns=column)
-    df2.to_csv("preprocessed_urls_hanam_restaurant_real_url_category.csv", encoding='utf-8-sig')
+    df2.to_csv("preprocessed_urls_hanam_restaurant_real_url_category_v7.csv", encoding='utf-8-sig')
